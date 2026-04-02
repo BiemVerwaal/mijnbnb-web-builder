@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Trash2, Edit3, Globe, Wand2 } from 'lucide-react'
+import { Plus, Trash2, Eye, Globe, Wand2 } from 'lucide-react'
 import type { WebProject } from '@/lib/storage'
 import { loadProjects, createProject, deleteProject } from '@/lib/storage'
 
@@ -23,7 +23,7 @@ export default function HomePage() {
     setProjects(loadProjects())
     setNewName('')
     setShowNew(false)
-    router.push(`/editor/${project.id}`)
+    router.push(`/display/${project.id}`)
   }
 
   function handleDelete(id: string) {
@@ -116,10 +116,10 @@ export default function HomePage() {
                 </p>
                 <div className="flex gap-2">
                   <button
-                    onClick={() => router.push(`/editor/${project.id}`)}
+                    onClick={() => router.push(`/display/${project.id}`)}
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold bg-brand text-white hover:bg-brand-light transition-all"
                   >
-                    <Edit3 size={12} /> Bewerken
+                    <Eye size={12} /> Bekijken
                   </button>
                   <button
                     onClick={() => handleDelete(project.id)}

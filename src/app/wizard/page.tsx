@@ -2822,7 +2822,7 @@ export default function NewProjectPage() {
       }
 
       window.sessionStorage.removeItem(wizardDraftKey);
-      router.push(`/editor/${editingProjectId}`);
+      router.push(`/display/${editingProjectId}`);
       return;
     }
 
@@ -2832,7 +2832,7 @@ export default function NewProjectPage() {
     updateNew(newProject.id, { slug, site_data: siteData });
 
     window.sessionStorage.removeItem(wizardDraftKey);
-    router.push(`/editor/${newProject.id}`);
+    router.push(`/display/${newProject.id}`);
   }
 
 
@@ -2844,13 +2844,13 @@ export default function NewProjectPage() {
         <Link
           href={
             editingProjectId
-              ? `/editor/${editingProjectId}`
+              ? `/display/${editingProjectId}`
               : "/"
           }
           className="btn-ghost gap-2 mb-6 inline-flex"
         >
           <ArrowLeft size={16} />
-          {editingProjectId ? "Terug naar editor" : ui.backDashboard}
+          {editingProjectId ? "Terug naar display" : ui.backDashboard}
         </Link>
 
         {draftReady && !editingProjectId && !wizardStarted ? (
