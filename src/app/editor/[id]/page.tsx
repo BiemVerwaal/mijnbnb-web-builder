@@ -10,6 +10,9 @@ import EditorSidebar from '@/components/editor/EditorSidebar'
 import EditorPreview from '@/components/editor/EditorPreview'
 import EditorHeader from '@/components/editor/EditorHeader'
 import SectionEditor from '@/components/editor/SectionEditor'
+import { LayoutList, Eye, PenSquare } from 'lucide-react'
+
+type MobilePanel = 'sidebar' | 'preview' | 'editor'
 
 interface EditorPageProps {
   params: { id: string }
@@ -24,6 +27,7 @@ export default function EditorPage({ params }: EditorPageProps) {
   const [saved, setSaved] = useState(true)
   const [activeTab, setActiveTab] = useState<'sections' | 'theme' | 'content'>('sections')
   const [previewMode, setPreviewMode] = useState(false)
+  const [mobilePanel, setMobilePanel] = useState<MobilePanel>('preview')
   const router = useRouter()
 
   useEffect(() => {
@@ -128,6 +132,14 @@ export default function EditorPage({ params }: EditorPageProps) {
     ? siteData.sections.find(s => s.id === selectedSection) ?? null
     : null
 
+  // When selecting a section, switch to editor panel on mobile
+  const handleSelectSection = useCallback((sectionId: string | null) => {
+    setSelectedSection(sectionId)
+    if (sectionId && window.innerWidth < 768) {
+      setMobilePanel('editor')
+    }
+  }, [])
+
   // Map WebProject to the Project interface EditorHeader expects
   const headerProject = {
     ...project,
@@ -149,10 +161,36 @@ export default function EditorPage({ params }: EditorPageProps) {
         onSaveAsHtml={handleSaveAsHtml}
       />
 
+      {/* Mobile Tab Bar */}
+      {!previewMode && (
+        <div className="flex md:hidden border-b border-brand/10 bg-white/90 backdrop-blur-xl">
+          {([
+            { key: 'sidebar' as MobilePanel, icon: LayoutList, label: 'Secties' },
+            { key: 'preview' as MobilePanel, icon: Eye, label: 'Preview' },
+            { key: 'editor' as MobilePanel, icon: PenSquare, label: 'Bewerken' },
+          ]).map(({ key, icon: Icon, label }) => (
+            <button
+              key={key}
+              onClick={() => setMobilePanel(key)}
+              className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-bold transition-colors ${
+                mobilePanel === key
+                  ? 'text-brand border-b-2 border-brand bg-brand/5'
+                  : 'text-ink-soft'
+              }`}
+            >
+              <Icon size={16} />
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="flex flex-1 overflow-hidden">
-        {/* Left Sidebar */}
+        {/* Left Sidebar - Desktop: always visible, Mobile: panel toggle */}
         {!previewMode && (
-          <aside className="w-72 bg-white/88 backdrop-blur-xl border-r border-brand/10 flex flex-col overflow-hidden flex-shrink-0 shadow-[12px_0_40px_rgba(15,53,60,0.04)]">
+          <aside className={`${
+            mobilePanel === 'sidebar' ? 'flex' : 'hidden'
+          } md:flex w-full md:w-72 bg-white/88 backdrop-blur-xl border-r border-brand/10 flex-col overflow-hidden flex-shrink-0 shadow-[12px_0_40px_rgba(15,53,60,0.04)]`}>
             {/* Tabs */}
             <div className="flex border-b border-brand/10 flex-shrink-0 px-2 pt-2">
               {(['sections', 'theme', 'content'] as const).map(tab => (
@@ -175,7 +213,7 @@ export default function EditorPage({ params }: EditorPageProps) {
                 activeTab={activeTab}
                 siteData={siteData}
                 selectedSection={selectedSection}
-                onSelectSection={setSelectedSection}
+                onSelectSection={handleSelectSection}
                 onToggleSection={toggleSection}
                 onMoveSection={moveSection}
                 onUpdateSiteData={updateSiteData}
@@ -184,40 +222,57 @@ export default function EditorPage({ params }: EditorPageProps) {
           </aside>
         )}
 
-        {/* Center: Preview */}
-        <main className="flex-1 overflow-y-auto p-6 flex items-start justify-center">
+        {/* Center: Preview - Desktop: always visible, Mobile: panel toggle */}
+        <main className={`${
+          previewMode ? 'flex' : mobilePanel === 'preview' ? 'flex' : 'hidden md:flex'
+        } flex-1 overflow-y-auto p-4 md:p-6 items-start justify-center`}>
           <div className="w-full max-w-sm">
-            <p className="text-xs text-center font-semibold text-brand/60 mb-3 tracking-wide">Live preview — klik op een sectie om te bewerken</p>
+            <p className="text-xs text-center font-semibold text-brand/60 mb-3 tracking-wide hidden md:block">Live preview — klik op een sectie om te bewerken</p>
             <EditorPreview
               siteData={siteData}
               selectedSection={selectedSection}
-              onSelectSection={setSelectedSection}
+              onSelectSection={handleSelectSection}
               onSettingsChange={handlePreviewSettingsChange}
             />
           </div>
         </main>
 
-        {/* Right Panel: Section Editor */}
+        {/* Right Panel: Section Editor - Desktop: always visible, Mobile: panel toggle */}
         {!previewMode && selectedSectionObj && (
-          <aside className="w-80 bg-white/88 backdrop-blur-xl border-l border-brand/10 overflow-y-auto flex-shrink-0 shadow-[-12px_0_40px_rgba(15,53,60,0.04)]">
+          <aside className={`${
+            mobilePanel === 'editor' ? 'flex' : 'hidden md:flex'
+          } w-full md:w-80 bg-white/88 backdrop-blur-xl border-l border-brand/10 overflow-y-auto flex-shrink-0 shadow-[-12px_0_40px_rgba(15,53,60,0.04)] flex-col`}>
             <SectionEditor
               section={selectedSectionObj}
               siteData={siteData}
               onUpdate={(data) => updateSection(selectedSectionObj.id, { data })}
-              onClose={() => setSelectedSection(null)}
+              onClose={() => { setSelectedSection(null); setMobilePanel('preview') }}
             />
           </aside>
         )}
 
-        {/* Empty right panel hint */}
+        {/* Empty right panel hint - only on desktop */}
         {!previewMode && !selectedSectionObj && (
-          <aside className="w-80 bg-white/88 backdrop-blur-xl border-l border-brand/10 flex-shrink-0 flex items-center justify-center p-6 shadow-[-12px_0_40px_rgba(15,53,60,0.04)]">
-            <div className="text-center text-ink-soft">
-              <div className="text-4xl mb-3">👈</div>
-              <p className="text-sm font-semibold">Selecteer een sectie</p>
-              <p className="text-xs mt-1 text-ink-soft/60">Klik op een sectie in de lijst of in de preview om te bewerken</p>
-            </div>
-          </aside>
+          <>
+            {/* Desktop empty hint */}
+            <aside className="hidden md:flex w-80 bg-white/88 backdrop-blur-xl border-l border-brand/10 flex-shrink-0 items-center justify-center p-6 shadow-[-12px_0_40px_rgba(15,53,60,0.04)]">
+              <div className="text-center text-ink-soft">
+                <div className="text-4xl mb-3">👈</div>
+                <p className="text-sm font-semibold">Selecteer een sectie</p>
+                <p className="text-xs mt-1 text-ink-soft/60">Klik op een sectie in de lijst of in de preview om te bewerken</p>
+              </div>
+            </aside>
+            {/* Mobile empty editor panel */}
+            {mobilePanel === 'editor' && (
+              <div className="flex md:hidden flex-1 items-center justify-center p-6">
+                <div className="text-center text-ink-soft">
+                  <div className="text-4xl mb-3">👆</div>
+                  <p className="text-sm font-semibold">Selecteer eerst een sectie</p>
+                  <p className="text-xs mt-1 text-ink-soft/60">Ga naar Secties of Preview en selecteer een sectie om te bewerken</p>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
