@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --brand: #145a63;
+  --brand-light: #1e7d85;
+  --accent: #e67d4d;
+}
+
+@layer base {
+  html {
+    font-family: 'Outfit', system-ui, sans-serif;
+  }
+  body {
+    @apply bg-bg text-ink;
+    background-image:
+      radial-gradient(circle at 92% -10%, rgba(230, 125, 77, 0.14), transparent 32%),
+      radial-gradient(circle at -10% 12%, rgba(20, 90, 99, 0.1), transparent 28%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-brand text-white font-bold text-sm transition-all hover:bg-brand-light hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-white border border-brand/20 text-ink font-bold text-sm transition-all hover:-translate-y-0.5 active:scale-95;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-ink-soft font-semibold text-sm transition-all hover:bg-brand/5 hover:text-brand;
+  }
+  .card {
+    @apply bg-white/90 border border-brand/10 rounded-3xl shadow-card p-6 backdrop-blur-sm;
+  }
+  .input {
+    @apply w-full px-4 py-3 rounded-2xl border border-brand/15 bg-white font-medium text-sm placeholder:text-ink-soft/60 focus:outline-none focus:ring-2 focus:ring-brand/25 focus:border-brand/40 transition-all;
+  }
+  .label {
+    @apply block text-xs font-extrabold uppercase tracking-widest text-brand/70 mb-1.5;
+  }
+  .section-title {
+    @apply text-xs font-extrabold uppercase tracking-widest text-brand/70 mb-3;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold;
+  }
+  .badge-brand {
+    @apply badge bg-brand/10 text-brand;
+  }
+  .badge-accent {
+    @apply badge bg-accent/10 text-accent;
+  }
+  .badge-green {
+    @apply badge bg-green-50 text-green-700;
+  }
+  .badge-gray {
+    @apply badge bg-gray-100 text-gray-600;
+  }
+}
