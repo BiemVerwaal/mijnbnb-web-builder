@@ -64,7 +64,13 @@ export default function EditorHeader({
           {previewMode ? 'Editor' : 'Preview'}
         </button>
 
-
+        <Link
+          href={`/wizard?projectId=${project.id}`}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-brand/5 text-brand hover:bg-brand/10 transition-all"
+        >
+          <Wand2 size={13} />
+          Wizard
+        </Link>
 
         {/* AI fill */}
         {onAiFill && (

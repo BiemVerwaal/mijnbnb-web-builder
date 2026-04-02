@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, Trash2, Edit3, Globe } from 'lucide-react'
+import { Plus, Trash2, Edit3, Globe, Wand2 } from 'lucide-react'
 import type { WebProject } from '@/lib/storage'
 import { loadProjects, createProject, deleteProject } from '@/lib/storage'
 
@@ -46,12 +46,20 @@ export default function HomePage() {
               <p className="text-xs text-ink-soft font-medium">Bouw je gast-app direct in de browser</p>
             </div>
           </div>
-          <button
-            onClick={() => setShowNew(true)}
-            className="btn-primary"
-          >
-            <Plus size={16} /> Nieuw project
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => router.push('/wizard')}
+              className="btn-secondary"
+            >
+              <Wand2 size={16} /> Wizard
+            </button>
+            <button
+              onClick={() => setShowNew(true)}
+              className="btn-primary"
+            >
+              <Plus size={16} /> Nieuw project
+            </button>
+          </div>
         </div>
       </header>
 
