@@ -3465,7 +3465,7 @@ export default function NewProjectPage() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3">
                     {filteredFacilityGroups
                       .filter((groupData) => groupData.items.length > 0)
                       .map(({ group, meta, items }) => {
@@ -3477,22 +3477,22 @@ export default function NewProjectPage() {
                             key={group}
                             type="button"
                             onClick={() => setActiveFacilityGroup(group)}
-                            className={`rounded-[20px] border px-4 py-3 text-left transition-all ${
+                            className={`rounded-[16px] sm:rounded-[20px] border px-3 py-2.5 sm:px-4 sm:py-3 text-left transition-all ${
                               activeFacilityGroup === group
                                 ? "border-brand/25 bg-white shadow-[0_10px_24px_rgba(20,90,99,0.08)] ring-1 ring-brand/10"
                                 : "border-brand/10 bg-white hover:border-brand/20"
                             }`}
                           >
-                            <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center justify-between gap-2">
                               <div className="min-w-0">
-                                <p className="text-sm font-extrabold text-ink">
+                                <p className="text-xs sm:text-sm font-extrabold text-ink leading-tight">
                                   {meta.title}
                                 </p>
-                                <p className="text-[11px] text-ink-soft mt-1 leading-5">
+                                <p className="text-[10px] sm:text-[11px] text-ink-soft mt-0.5 sm:mt-1 leading-4 line-clamp-2">
                                   {meta.description}
                                 </p>
                               </div>
-                              <span className="rounded-full bg-brand/8 px-2.5 py-1 text-[11px] font-extrabold text-brand">
+                              <span className="rounded-full bg-brand/8 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-[11px] font-extrabold text-brand flex-shrink-0">
                                 {selectedCount}/{items.length}
                               </span>
                             </div>
@@ -3523,66 +3523,58 @@ export default function NewProjectPage() {
                         {(activeFacilityGroupData?.items ?? []).map((item) => (
                           <div
                             key={item.id}
-                            className={`rounded-[20px] border px-3 py-2.5 sm:py-3 transition-all ${
+                            className={`rounded-[16px] sm:rounded-[20px] border px-2.5 sm:px-3 py-2 sm:py-3 transition-all ${
                               activeFacility?.id === item.id
                                 ? "border-brand/25 bg-brand/5 shadow-[0_10px_22px_rgba(20,90,99,0.06)]"
                                 : "border-brand/10 bg-bg"
                             }`}
                           >
-                            <div className="flex items-center gap-2 sm:gap-3">
-                              <button
-                                type="button"
-                                onClick={() => setActiveFacilityId(item.id)}
-                                className="flex-1 min-w-0 flex items-center gap-3 text-left"
+                            <button
+                              type="button"
+                              onClick={() => setActiveFacilityId(item.id)}
+                              className="w-full flex items-center gap-2 sm:gap-3 text-left"
+                            >
+                              <div
+                                className={`h-8 w-8 sm:h-10 sm:w-10 shrink-0 rounded-xl sm:rounded-2xl border flex items-center justify-center ${
+                                  activeFacility?.id === item.id
+                                    ? "bg-white border-brand/15 shadow-sm"
+                                    : "bg-white border-brand/10"
+                                }`}
                               >
-                                <div
-                                  className={`h-10 w-10 shrink-0 rounded-2xl border flex items-center justify-center text-lg ${
-                                    activeFacility?.id === item.id
-                                      ? "bg-white border-brand/15 shadow-sm"
-                                      : "bg-white border-brand/10"
-                                  }`}
-                                >
-                                  <AppIcon
-                                    name={item.icon}
-                                    className="h-4 w-4"
-                                  />
-                                </div>
-                                <div className="min-w-0">
-                                  <div className="flex items-center gap-2 flex-wrap">
-                                    <p className="text-sm font-extrabold text-ink">
-                                      {item.titleTranslations?.[
-                                        defaultLanguage
-                                      ] ?? item.title}
-                                    </p>
-                                    {item.selected && (
-                                      <span className="rounded-full bg-brand/10 px-2 py-1 text-[10px] font-extrabold uppercase tracking-wide text-brand">
-                                        {ui.selected}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <p className="text-[11px] text-ink-soft mt-1 leading-4 truncate">
-                                    {item.helperText || item.description}
-                                  </p>
-                                </div>
-                              </button>
-
+                                <AppIcon
+                                  name={item.icon}
+                                  className="h-3.5 w-3.5 sm:h-4 sm:w-4"
+                                />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-xs sm:text-sm font-extrabold text-ink leading-tight truncate">
+                                  {item.titleTranslations?.[
+                                    defaultLanguage
+                                  ] ?? item.title}
+                                </p>
+                                <p className="text-[10px] sm:text-[11px] text-ink-soft mt-0.5 leading-4 truncate">
+                                  {item.helperText || item.description}
+                                </p>
+                              </div>
                               <button
                                 type="button"
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   updateFacility(item.id, {
                                     selected: !item.selected,
                                   });
                                   setActiveFacilityId(item.id);
                                 }}
-                                className={`shrink-0 inline-flex items-center gap-2 rounded-xl px-3 py-2 text-[11px] font-extrabold transition-all ${
+                                className={`shrink-0 inline-flex items-center justify-center rounded-lg sm:rounded-xl w-8 h-8 sm:w-auto sm:h-auto sm:px-3 sm:py-2 text-[11px] font-extrabold transition-all ${
                                   item.selected
                                     ? "bg-brand text-white"
                                     : "bg-white text-brand border border-brand/10 hover:bg-brand/5"
                                 }`}
                               >
-                                {item.selected ? ui.selected : ui.include}
+                                <span className="hidden sm:inline">{item.selected ? ui.selected : ui.include}</span>
+                                <span className="sm:hidden">{item.selected ? "✓" : "+"}</span>
                               </button>
-                            </div>
+                            </button>
                           </div>
                         ))}
                       </div>
@@ -3591,22 +3583,22 @@ export default function NewProjectPage() {
                     <div className="xl:sticky xl:top-8 space-y-4">
                       {activeFacility ? (
                         <>
-                          <div className="rounded-[28px] border border-brand/10 bg-white p-5 shadow-[0_18px_40px_rgba(20,90,99,0.08)]">
-                            <div className="flex items-start justify-between gap-3">
-                              <div className="flex items-start gap-3">
-                                <div className="h-12 w-12 rounded-[18px] bg-brand/5 border border-brand/10 shadow-sm flex items-center justify-center text-xl">
+                          <div className="rounded-[24px] sm:rounded-[28px] border border-brand/10 bg-white p-3 sm:p-5 shadow-[0_18px_40px_rgba(20,90,99,0.08)]">
+                            <div className="flex items-start justify-between gap-2 sm:gap-3">
+                              <div className="flex items-start gap-2 sm:gap-3 min-w-0">
+                                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-[14px] sm:rounded-[18px] bg-brand/5 border border-brand/10 shadow-sm flex items-center justify-center flex-shrink-0">
                                   <AppIcon
                                     name={activeFacility.icon}
-                                    className="h-5 w-5"
+                                    className="h-4 w-4 sm:h-5 sm:w-5"
                                   />
                                 </div>
-                                <div>
-                                  <p className="text-base font-extrabold text-ink">
+                                <div className="min-w-0">
+                                  <p className="text-sm sm:text-base font-extrabold text-ink leading-tight">
                                     {activeFacility.titleTranslations?.[
                                       defaultLanguage
                                     ] ?? activeFacility.title}
                                   </p>
-                                  <p className="text-xs text-ink-soft mt-1">
+                                  <p className="text-[10px] sm:text-xs text-ink-soft mt-0.5 sm:mt-1 line-clamp-2">
                                     {ui.amenityTooltipLabel}:{" "}
                                     {activeFacility.helperText ||
                                       activeFacility.description}
@@ -3633,12 +3625,12 @@ export default function NewProjectPage() {
                               </button>
                             </div>
 
-                            <div className="grid gap-4 mt-5">
+                            <div className="grid gap-3 sm:gap-4 mt-4 sm:mt-5">
                               <Field label={ui.amenityDescription}>
-                                <div className="space-y-3">
+                                <div className="space-y-2 sm:space-y-3">
                                   <textarea
-                                    rows={4}
-                                    className="input text-sm resize-none"
+                                    rows={3}
+                                    className="input text-xs sm:text-sm resize-none"
                                     value={activeFacility.description}
                                     onChange={(e) =>
                                       updateFacility(activeFacility.id, {
@@ -4165,13 +4157,13 @@ export default function NewProjectPage() {
                     {/* Location list */}
                     {visibleLocations.length > 0 ? (
                       <div className="rounded-[28px] border border-brand/10 bg-white overflow-hidden shadow-[0_20px_60px_rgba(15,53,60,0.06)]">
-                        <div className="px-5 py-4 border-b border-brand/8 flex items-center justify-between gap-3">
-                          <div>
-                            <p className="text-sm font-extrabold text-ink">
+                        <div className="px-3 sm:px-5 py-3 sm:py-4 border-b border-brand/8 flex items-center justify-between gap-2 sm:gap-3">
+                          <div className="min-w-0">
+                            <p className="text-xs sm:text-sm font-extrabold text-ink">
                               {ui.summary}
                             </p>
-                            <p className="text-xs text-ink-soft mt-1">
-                              Klik op een locatie om die rechts te bewerken.
+                            <p className="text-[10px] sm:text-xs text-ink-soft mt-0.5 sm:mt-1">
+                              Klik op een locatie om details te bewerken.
                             </p>
                           </div>
                           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand/8 text-brand text-xs font-extrabold">
@@ -4301,11 +4293,11 @@ export default function NewProjectPage() {
                   {/* ── Right column: detail panel ── */}
                   <div className="xl:sticky xl:top-8">
                     {activeLocation ? (
-                      <div className="rounded-[28px] border border-brand/10 bg-white p-5 shadow-[0_20px_60px_rgba(15,53,60,0.08)] space-y-5">
+                      <div className="rounded-[20px] sm:rounded-[28px] border border-brand/10 bg-white p-3 sm:p-5 shadow-[0_20px_60px_rgba(15,53,60,0.08)] space-y-4 sm:space-y-5">
                         {/* Location header */}
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-start gap-3">
-                            <div className="h-14 w-14 rounded-2xl overflow-hidden bg-brand/5 border border-brand/8 flex-shrink-0">
+                        <div className="flex items-start justify-between gap-2 sm:gap-3">
+                          <div className="flex items-start gap-2 sm:gap-3 min-w-0">
+                            <div className="h-10 w-10 sm:h-14 sm:w-14 rounded-xl sm:rounded-2xl overflow-hidden bg-brand/5 border border-brand/8 flex-shrink-0">
                               <img
                                 src={
                                   activeLocation.image_reference ||
@@ -4315,11 +4307,11 @@ export default function NewProjectPage() {
                                 className="h-full w-full object-cover"
                               />
                             </div>
-                            <div>
-                              <p className="text-base font-extrabold text-ink">
+                            <div className="min-w-0">
+                              <p className="text-sm sm:text-base font-extrabold text-ink leading-tight">
                                 {activeLocation.name}
                               </p>
-                              <p className="text-xs text-ink-soft mt-1 leading-5">
+                              <p className="text-[10px] sm:text-xs text-ink-soft mt-0.5 sm:mt-1 leading-4 sm:leading-5 line-clamp-2">
                                 {activeLocation.recommended_for_guests_reason ||
                                   placesUi.fetchNotice}
                               </p>
@@ -4330,7 +4322,7 @@ export default function NewProjectPage() {
                             onClick={() =>
                               toggleLocationSelection(activeLocation.id)
                             }
-                            className={`flex-shrink-0 px-3 py-2 rounded-xl text-xs font-extrabold transition-all ${activeLocation.selected === false ? "bg-brand/5 text-brand hover:bg-brand/10" : "bg-brand text-white"}`}
+                            className={`flex-shrink-0 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-extrabold transition-all ${activeLocation.selected === false ? "bg-brand/5 text-brand hover:bg-brand/10" : "bg-brand text-white"}`}
                           >
                             {activeLocation.selected === false
                               ? ui.include
@@ -4384,10 +4376,10 @@ export default function NewProjectPage() {
                                 {photoSearchLoadingId === activeLocation.id ? 'Zoeken…' : 'Zoek foto’s'}
                       */}
                         {/* Category + distance */}
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-2 sm:gap-3">
                           <Field label={ui.category}>
                             <select
-                              className="input text-sm"
+                              className="input text-xs sm:text-sm"
                               value={activeLocation.category}
                               onChange={(event) =>
                                 updateLocation(activeLocation.id, {

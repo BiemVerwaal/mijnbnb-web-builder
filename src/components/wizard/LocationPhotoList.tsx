@@ -62,10 +62,10 @@ function LocationPhotoCard({
     <>
       <button
         onClick={() => setModalOpen(true)}
-        className="group flex w-full items-center gap-4 rounded-[20px] border border-brand/10 bg-white p-3 text-left shadow-[0_8px_24px_rgba(15,53,60,0.04)] transition-all hover:-translate-y-0.5 hover:border-brand/20 hover:shadow-[0_12px_30px_rgba(15,53,60,0.08)]"
+        className="group flex w-full items-center gap-2.5 sm:gap-4 rounded-[16px] sm:rounded-[20px] border border-brand/10 bg-white p-2.5 sm:p-3 text-left shadow-[0_8px_24px_rgba(15,53,60,0.04)] transition-all hover:-translate-y-0.5 hover:border-brand/20 hover:shadow-[0_12px_30px_rgba(15,53,60,0.08)]"
       >
         {/* Thumbnail */}
-        <div className="relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-brand/5">
+        <div className="relative h-12 w-16 sm:h-16 sm:w-24 flex-shrink-0 overflow-hidden rounded-lg sm:rounded-xl bg-brand/5">
           {currentPhoto ? (
             <Image src={currentPhoto} alt={location.name} fill className="object-cover" unoptimized />
           ) : (
