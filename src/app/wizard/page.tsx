@@ -2840,7 +2840,7 @@ export default function NewProjectPage() {
     <div className="min-h-screen bg-bg relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_92%_-10%,rgba(230,125,77,0.18),transparent_30%),radial-gradient(circle_at_-10%_10%,rgba(20,90,99,0.14),transparent_28%)]" />
 
-      <div className="relative max-w-7xl mx-auto px-4 py-8">
+      <div className="relative max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
         <Link
           href={
             editingProjectId
@@ -3465,7 +3465,7 @@ export default function NewProjectPage() {
                     </p>
                   </div>
 
-                  <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-3">
                     {filteredFacilityGroups
                       .filter((groupData) => groupData.items.length > 0)
                       .map(({ group, meta, items }) => {
@@ -3509,7 +3509,7 @@ export default function NewProjectPage() {
                   )}
 
                   <div className="grid xl:grid-cols-[minmax(0,1fr)_420px] gap-5 items-start">
-                    <div className="rounded-[24px] border border-brand/10 bg-white p-4">
+                    <div className="rounded-[24px] border border-brand/10 bg-white p-3 sm:p-4">
                       <div>
                         <p className="text-sm font-extrabold text-ink">
                           {activeFacilityGroupData?.meta.title}
@@ -3523,13 +3523,13 @@ export default function NewProjectPage() {
                         {(activeFacilityGroupData?.items ?? []).map((item) => (
                           <div
                             key={item.id}
-                            className={`rounded-[20px] border px-3 py-3 transition-all ${
+                            className={`rounded-[20px] border px-3 py-2.5 sm:py-3 transition-all ${
                               activeFacility?.id === item.id
                                 ? "border-brand/25 bg-brand/5 shadow-[0_10px_22px_rgba(20,90,99,0.06)]"
                                 : "border-brand/10 bg-bg"
                             }`}
                           >
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2 sm:gap-3">
                               <button
                                 type="button"
                                 onClick={() => setActiveFacilityId(item.id)}
@@ -3843,8 +3843,8 @@ export default function NewProjectPage() {
                 <div className="grid xl:grid-cols-[minmax(0,1fr)_400px] gap-5 items-start">
                   {/* ── Left column: search controls + location list ── */}
                   <div className="space-y-4">
-                    <div className="rounded-[28px] border border-brand/10 bg-white p-5 shadow-[0_20px_60px_rgba(15,53,60,0.06)]">
-                      <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="rounded-[28px] border border-brand/10 bg-white p-3 sm:p-5 shadow-[0_20px_60px_rgba(15,53,60,0.06)]">
+                      <div className="flex flex-col sm:flex-wrap sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div>
                           <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brand/60">
                             Selecteer locaties in de buurt
@@ -3860,7 +3860,7 @@ export default function NewProjectPage() {
                             disabled={
                               !isWizardAddressComplete(address) || nearbyLoading
                             }
-                            className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-accent/10 text-accent text-xs font-extrabold hover:bg-accent/15 transition-all disabled:opacity-60"
+                            className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-accent/10 text-accent text-xs font-extrabold hover:bg-accent/15 transition-all disabled:opacity-60 w-full sm:w-auto justify-center"
                           >
                             <Search size={14} />
                             {nearbyLoading
@@ -4196,10 +4196,10 @@ export default function NewProjectPage() {
                                 }}
                                 role="button"
                                 tabIndex={0}
-                                className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${isActive ? "bg-brand/6" : "bg-white hover:bg-brand/3"} ${!isSelected ? "opacity-55" : ""}`}
+                                className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-3 cursor-pointer transition-colors ${isActive ? "bg-brand/6" : "bg-white hover:bg-brand/3"} ${!isSelected ? "opacity-55" : ""}`}
                               >
                                 {/* Thumbnail */}
-                                <div className="flex-shrink-0 w-12 h-12 rounded-xl overflow-hidden bg-brand/5 border border-brand/8">
+                                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden bg-brand/5 border border-brand/8">
                                   <img
                                     src={
                                       item.image_reference ||
@@ -4484,7 +4484,7 @@ export default function NewProjectPage() {
               )}
 
               {step === 7 && (
-                <div className="grid lg:grid-cols-[1fr_1fr] gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-6">
                   <LocationPhotoList
                     locations={selectedLocations}
                     photoResults={locationPhotoResults}

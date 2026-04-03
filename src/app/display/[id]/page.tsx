@@ -125,11 +125,10 @@ export default function DisplayPage({ params }: { params: { id: string } }) {
 
             <button
               onClick={handleOpenNewTab}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 transition-all"
-              title="Open in nieuw tabblad"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition-all flex-1 sm:flex-none justify-center shadow-md"
             >
-              <ExternalLink size={14} />
-              <span className="hidden sm:inline">Openen</span>
+              <ExternalLink size={15} />
+              Open preview
             </button>
 
             <button
